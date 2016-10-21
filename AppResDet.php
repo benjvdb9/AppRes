@@ -13,9 +13,9 @@
 				$_SESSION["destination"] = $_POST["destination"];
 				$_SESSION["seats"] = $_POST["seats"];
 				$_SESSION["warranty"] = $_POST["warranty"];
-				$count = 5;
+				$count = $_SESSION["seats"];
 				while($count > 0){
-				echo '<tr>
+				echo '<tr>    /*utiliser isset pour verifier si il y a des résultats avant de passer à la page suivante*/
 					<th>Nom</th>
 					<th><input type="text" name= nom[]/></th>
 				</tr>
@@ -29,8 +29,8 @@
 			</table>
 			<br />
 			<input type="submit" value="Etape suivante" />
-			<input type="button" value="Retour à la page précédente" onclick="parent.location='AppResIn.php'"/>
-			<input type="button" value="Annuler la réservation" />
+			<input type="submit" value="Retour à la page précédente" href="#null" onclick="javascript:history.back();"/>
+			<input type="button" value="Annuler la réservation" onclick="parent.location='AppResIn.php'/>
 		</form>
 	</body>
 </html>
