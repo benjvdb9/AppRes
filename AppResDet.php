@@ -9,19 +9,26 @@
 		<form method="post" name="ResDet">
 			<table>
 				<?php
-					echo <tr>
-						echo <th>Nom</th>
-						echo <th><input type="text" /></th>
-					echo </tr>
-					echo <tr>
-						echo <th>Age</th>
-						echo <th><input type="text" /></th>
-					echo</tr>
+					$count = $_POST["seats"];
+					while($count > 0){
 				?>
-				<input type="submit" value="Etape suivante" />
-				<input type="button" value="Retour à la page précédente" />
-				<input type="button" value="Annuler la réservation" />
-				</table>
+				<tr>
+					<th>Nom</th>
+					<th><input type="text" /></th>
+				</tr>
+				<tr>
+					<th>Age</th>
+					<th><input type="text" /></th>
+				</tr>
+				<?php
+					$count -= 1;
+				}
+				?>
+			</table>
+			<br />
+			<input type="submit" value="Etape suivante" />
+			<input type="button" value="Retour à la page précédente" />
+			<input type="button" value="Annuler la réservation" />
 		</form>
 	</body>
 </html>
