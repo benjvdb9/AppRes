@@ -9,21 +9,23 @@
 		<form method="post" name="ResDet">
 			<table>
 				<?php
-				echo 'test';
 				session_start();
 				$_SESSION["destination"] = $_POST["destination"];
 				$_SESSION["seats"] = $_POST["seats"];
-				$_SESSION["warranty"] = $_POST["warranty"]
-				$count = $_SESSION["seats"];
-				?>
-				<tr>
+				$_SESSION["warranty"] = $_POST["warranty"];
+				$count = 5;
+				while($count > 0){
+				echo '<tr>
 					<th>Nom</th>
-					<th><input type="text" /></th>
+					<th><input type="text" name= nom[]/></th>
 				</tr>
 				<tr>
 					<th>Age</th>
 					<th><input type="text" /></th>
-				</tr>
+				</tr>';
+					$count = $count - 1;
+					}
+				?>
 			</table>
 			<br />
 			<input type="submit" value="Etape suivante" />
