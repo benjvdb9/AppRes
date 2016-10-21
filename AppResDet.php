@@ -9,8 +9,12 @@
 		<form method="post" name="ResDet">
 			<table>
 				<?php
-					$count = $_POST["seats"];
-					while($count > 0){
+				echo 'test';
+				session_start();
+				$_SESSION["destination"] = $_POST["destination"];
+				$_SESSION["seats"] = $_POST["seats"];
+				$_SESSION["warranty"] = $_POST["warranty"]
+				$count = $_SESSION["seats"];
 				?>
 				<tr>
 					<th>Nom</th>
@@ -20,14 +24,10 @@
 					<th>Age</th>
 					<th><input type="text" /></th>
 				</tr>
-				<?php
-					$count -= 1;
-				}
-				?>
 			</table>
 			<br />
 			<input type="submit" value="Etape suivante" />
-			<input type="button" value="Retour à la page précédente" />
+			<input type="button" value="Retour à la page précédente" onclick="parent.location='AppResIn.php'"/>
 			<input type="button" value="Annuler la réservation" />
 		</form>
 	</body>
