@@ -1,46 +1,57 @@
 <?php
 class ResClass {
 	
-	session_start();
-	
 	private $destination;
 	private $seats;
 	private $warranty;
-	private names;
+	private $names;
 	private $ages;
 	
-	function SaveData()
+	public function SaveData1()
 	{
 		$this->destination = $_POST["destination"];
 		$this->seats= $_POST["seats"];
 		$this->warranty= $_POST["warranty"];
+	}	
+	
+	public function SaveData2()
+	{
 		$this->names= $_POST["names"];
 		$this->ages= $_POST["ages"];
 	}
 	
-	function getDestination()
+	public function ResetData()
 	{
-		return $this->destination
+		$this->destination= "";
+		$this->seats= 		"";
+		$this->warranty= 	"";
+		$this->names= 		"";
+		$this->ages= 		"";
+	}
+	
+	public function getDestination()
+	{
+		return $this->destination;
 	}
 
-	function getSeats()
+	public function getSeats()
 	{
-		return $this->Seats
+		return $this->seats;
 	}
 	
-	function getWarranty()
+	public function getWarranty()
 	{
-		return $this->Warranty
+		return $this->warranty;
 	}
 	
-	function getNames()
+	public function getNames()
 	{
-		return $this->Names
+		return $this->names;
 	}
 	
-	function getAges()
+	public function getAges()
 	{
-		return $this->Ages
+		return $this->ages;
 	}
 }
 ?>

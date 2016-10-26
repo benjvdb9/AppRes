@@ -1,11 +1,11 @@
-<html>
+﻿<html>
 	<head>
+		<meta charset="UTF-8" />
 		<link rel="stylesheet" href="AppResIn.css">
 		<title>validation des reservations</title>
 	</head>
 	
 	<body>
-		<?php include 'ResClass.php'; ?>
 		<b><h1>VALIDATION DES RESERVATIONS</h1></b><br /><br />
 		
 		<table>
@@ -18,8 +18,10 @@
 				<th></th>
 			</tr>
 			<?php
-			session_start(); 
-			$count= $_SESSION["seats"];
+			session_start();
+			include 'ResClass.php';
+			$_SESSION["reservation"]->SaveData2();
+			$count= $_SESSION["reservation"]->GetSeats();
 			while ($count > 0){
 				echo '<tr>
 					<th>Nom</th>
@@ -31,6 +33,7 @@
 				</tr>';
 				$count--;
 			}
+			?>
 			<tr>
 				<th>Assurance annulation</th>
 				<th></th>
