@@ -25,7 +25,7 @@
 					<th><input type="checkbox" name="warranty" /></th>
 				</tr>
 			</table><br />
-			<button type="submit" name="Page" value="0">
+			<button type="submit" name="Page" value="1">Etape suivante</button>
 			<input type="submit" value="Annuler la réservation"/>
 		</form>
 	</body>

@@ -38,9 +38,9 @@ class Controller {
 		$check2= 1;
 		$check3= 1;
 		
-		$check1= CheckExistence($model->GetDestination());
+		$check1= $this->CheckExistence($this->model->GetDestination());
 		
-		if (null !== $model.GetSeats() && is_numeric($model->GetSeats()))
+		if (null !== $this->model->GetSeats() && is_numeric($this->model->GetSeats()))
 		{
 			$check2 = 0;
 		}
@@ -49,7 +49,7 @@ class Controller {
 			$check2= 1;
 		}
 		
-		$check3= CheckExistence($model->GetWarranty());
+		$check3= $this->CheckExistence($this->model->GetWarranty());
 		
 		return array($check1, $check2, $check3);
 	}
