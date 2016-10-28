@@ -9,15 +9,15 @@ class ResClass {
 	
 	public function SaveData1()
 	{
-		$this->destination = $_POST["destination"];
-		$this->seats= $_POST["seats"];
-		$this->warranty= $_POST["warranty"];
+		$this->destination = htmlspecialchars($_POST["destination"]);
+		$this->seats= htmlspecialchars($_POST["seats"]);
+		$this->warranty= htmlspecialchars($_POST["warranty"]);
 	}
 	
 	public function SaveData2()
 	{
-		$this->names= $_POST["names"];
-		$this->ages= $_POST["ages"];
+		$this->names= htmlspecialchars($_POST["names"]);
+		$this->ages= htmlspecialchars($_POST["ages"]);
 	}
 	
 	public function ResetData()
