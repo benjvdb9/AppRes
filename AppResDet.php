@@ -6,7 +6,6 @@
 	$_SESSION["reservation"]->SaveData1();
 	
 	function ResetReservation(){
-		echo TEST
 		$_SESSION["reservation"]->ResetData();
 		$URL= 'http://'. $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'].'/../AppResIn';
 		header("Location: echo $URL];");
@@ -22,7 +21,7 @@
 	
 	<body>
 		<b><h1>DETAIL DES RESERVATIONS</h1></b><br /><br />
-		<form method="post" name="ResDet">
+		<form method="post" name="ResDet" action="AppResVal.php">
 			<table>
 				<tr>
 					<th><br/></th>
@@ -55,7 +54,7 @@
 			<br />
 			<input type="submit" value="Etape suivante" />
 			<input type="button" value="Retour à la page précédente" onclick="javascript:history.back();" />
-			<input type="button" value="Annuler la réservation" onclick="ResetReservation()" />
+			<input type="button" value="Annuler la réservation" onclick=ResetReservation() />
 		</form>
 	</body>
 </html>

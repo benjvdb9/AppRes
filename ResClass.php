@@ -1,18 +1,18 @@
 <?php
 class ResClass {
 	
-	private $destination;
-	private $seats;
-	private $warranty;
-	private $names;
-	private $ages;
+	private $destination=	"";
+	private $seats=			"";
+	private $warranty= 		"";
+	private $names=  		"";
+	private $ages = 		"";
 	
 	public function SaveData1()
 	{
 		$this->destination = $_POST["destination"];
 		$this->seats= $_POST["seats"];
 		$this->warranty= $_POST["warranty"];
-	}	
+	}
 	
 	public function SaveData2()
 	{

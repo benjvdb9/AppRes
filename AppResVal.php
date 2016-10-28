@@ -11,7 +11,7 @@
 		<table>
 			<tr>
 				<th>Destination</th>
-				<th></th> 
+				<th>$_SESSION["reservation"]->GetDestination()</th>
 			</tr>
 			<tr>
 				<th>Nombre de places</th>
@@ -19,19 +19,19 @@
 			</tr>
 			<?php
 			session_start();
-			include 'ResClass.php';
 			$_SESSION["reservation"]->SaveData2();
-			$count= $_SESSION["reservation"]->GetSeats();
-			while ($count > 0){
+			$start= 0;
+			$end= $_SESSION["reservation"]->GetSeats();
+			while ($start != $end){
 				echo '<tr>
 					<th>Nom</th>
-					<th></th>
+					<th>$_SESSION["reservation"]->GetNames()[$start]</th>
 				</tr>
 				<tr>
 					<th>Age</th>
 					<th></th>
 				</tr>';
-				$count--;
+				$start++;
 			}
 			?>
 			<tr>
