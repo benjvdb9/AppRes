@@ -1,24 +1,11 @@
 <?php
-class ResClass {
+class Model {
 	
 	private $destination=	"";
 	private $seats=			"";
 	private $warranty= 		"";
 	private $names=  		"";
 	private $ages = 		"";
-	
-	public function SaveData1()
-	{
-		$this->destination = htmlspecialchars($_POST["destination"]);
-		$this->seats= htmlspecialchars($_POST["seats"]);
-		$this->warranty= htmlspecialchars($_POST["warranty"]);
-	}
-	
-	public function SaveData2()
-	{
-		$this->names= htmlspecialchars($_POST["names"]);
-		$this->ages= htmlspecialchars($_POST["ages"]);
-	}
 	
 	public function ResetData()
 	{

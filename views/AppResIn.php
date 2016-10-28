@@ -10,7 +10,7 @@
 		Le prix de la place est de 10 euros jusqu'à 12 ans et ensuite de 15 euros.<br />
 		Le prix de l'assurance annulation est de 20 euros quel que soit le nombre de voyageurs.<br /><br />
 		
-		<form method="post" action="AppResDet.php">
+		<form method="post">
 			<table>
 				<tr>
 					<th>Destination</th>
@@ -25,8 +25,8 @@
 					<th><input type="checkbox" name="warranty" /></th>
 				</tr>
 			</table><br />
-			<input type="submit" value="Etape suivante" />
-			<input type="reset" value="Annuler la réservation" />
+			<button type="submit" name="Page" value="0">
+			<input type="submit" value="Annuler la réservation"/>
 		</form>
 	</body>
 </html>
