@@ -1,11 +1,11 @@
 <?php
 class Model {
 	
-	private $destination=	"";
-	private $seats=			"";
-	private $warranty= 		"";
-	private $names=  		"";
-	private $ages = 		"";
+	public $destination; /*public*/
+	public $seats;
+	public $warranty;
+	public $names;
+	public $ages;
 	
 	public function ResetData()
 	{

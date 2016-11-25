@@ -15,22 +15,28 @@ class View {
 	}
 
 	public function output2(){
-		if ($this->controller->VerifyData1() == array(0, 0, 0))
+		if ($this->controller->VerifyData1() == array(0, 1, 0)) /*error*/
 		{
 			$this->controller->SaveData1();
-			var_dump($this->model);
-			$page2 = file_get_contents ('./views/AppResVal.php');
-			return $page2;
+			include ('./views/AppResDet.php');
 		}
 		else
 		{
-			return '<h1>AAAAAAAAAAAAAAAAAAAAAAAAAA</h1>';
+			var_dump($this->controller->VerifyData1());
 		}
 	}
-
-	/*public function output3(){
-		return AppResVal.php
-	}*/
-
+	
+	public function output3(){
+		$this->model = $_SESSION['reservation'];
+		if ($this->controller->VerifyData2() == 0)
+		{
+			$this->controller->SaveData2();
+			include ('./views/AppResVal.php');
+		}
+		else
+		{
+			var_dump($this->controller->VerifyData2());
+		}
+	}
 }
 ?>

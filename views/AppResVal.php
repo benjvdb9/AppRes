@@ -11,17 +11,15 @@
 		<table>
 			<tr>
 				<th>Destination</th>
-				<th>$_SESSION["reservation"]->GetDestination()</th>
+				<th></th>
 			</tr>
 			<tr>
 				<th>Nombre de places</th>
 				<th></th>
 			</tr>
 			<?php
-			session_start();
-			$_SESSION["reservation"]->SaveData2();
 			$start= 0;
-			$end= $_SESSION["reservation"]->GetSeats();
+			$end= $this->model->GetSeats();
 			while ($start != $end){
 				echo '<tr>
 					<th>Nom</th>
