@@ -14,7 +14,7 @@
 					<th></th>
 				</tr>
 				<?php
-				$count= $this->model->getSeats();
+				$count= $_SESSION['reservation']->getSeats();
 				while($count > 0){
 					echo '
 					<tr>
@@ -35,7 +35,7 @@
 			</table>
 			<br />
 			<button type="submit" name="Page" value="2">Etape suivante</button>
-			<input type="button" value="Retour à la page précédente" onclick="javascript:history.back();" />
+			<button type="submit" name="Page" value="0">Retour à la page précédente</button>
 			<input type="button" value="Annuler la réservation" onclick="$this->controller->ResetRes()" />
 		</form>
 	</body>

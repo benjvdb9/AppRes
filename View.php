@@ -15,14 +15,19 @@ class View {
 	}
 
 	public function output2(){
-		if ($this->controller->VerifyData1() == array(0, 1, 0)) /*error*/
+		if ($this->controller->VerifyData1() == array(0, 0, 0)) /*error*/
 		{
-			$this->controller->SaveData1();
+			$this->controller->SaveData1('OUI');
 			include ('./views/AppResDet.php');
+		}
+		else if ($this->controller->VerifyData1() == array(0, 0, 1))
+		{
+			$this->controller->SaveData1('NON');
+			include ('./views/AppResDet.php');			
 		}
 		else
 		{
-			var_dump($this->controller->VerifyData1());
+			include ('./views/AppResIn.php');
 		}
 	}
 	
@@ -35,8 +40,14 @@ class View {
 		}
 		else
 		{
-			var_dump($this->controller->VerifyData2());
+			include ('./views/AppResDet.php');
 		}
+	}
+	
+	public function output4(){
+		$this->model = $_SESSION['reservation'];
+		
+		include('./views/AppResCnf.php');
 	}
 }
 ?>
