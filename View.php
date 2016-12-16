@@ -15,32 +15,79 @@ class View {
 	}
 
 	public function output2(){
-		if ($this->controller->VerifyData1() == array(0, 0, 0)) /*error*/
+		$this->model = $_SESSION['reservation'];
+		$checkdata = $this->controller->VerifyData1();
+		
+		/*if ($this->controller->NoInput() == 0)
 		{
-			$this->controller->SaveData1('OUI');
-			include ('./views/AppResDet.php');
-		}
-		else if ($this->controller->VerifyData1() == array(0, 0, 1))
-		{
-			$this->controller->SaveData1('NON');
-			include ('./views/AppResDet.php');			
+			if ($this->controller->ExistingData()[0] == 0)
+				{include ('./views/AppResDet.php');}
+			else
+				{include ('./views/AppResIn.php');}
 		}
 		else
 		{
-			include ('./views/AppResIn.php');
+			if ($checkdata == array(0, 0, 0))
+			{
+				$this->controller->SaveData1('OUI');
+				include ('./views/AppResDet.php');
+			}
+			else if ($checkdata == array(0, 0, 1))
+			{
+				$this->controller->SaveData1('NON');
+				include ('./views/AppResDet.php');
+			}
+			else
+			{
+				include ('./views/AppResIn.php');
+			}
+		}
+	}*/
+		
+		if ($this->controller->ExistingData()[0] != 0)
+		{
+			if ($checkdata == array(0, 0, 0))
+			{
+				$this->controller->SaveData1('OUI');
+				include ('./views/AppResDet.php');
+			}
+			else if ($checkdata == array(0, 0, 1))
+			{
+				$this->controller->SaveData1('NON');
+				include ('./views/AppResDet.php');			
+			}
+			else
+			{
+				include ('./views/AppResIn.php');
+			}
+		}
+		else if ($this->controller->ExistingData()[0] == 0)
+		{
+			if ($this->controller->NoInput() == 0)
+				{include ('./views/AppResDet.php');}
+			else
+				{include ('./views/AppResIn.php');}
 		}
 	}
 	
 	public function output3(){
 		$this->model = $_SESSION['reservation'];
-		if ($this->controller->VerifyData2() == 0)
+		
+		if ($this->controller->ExistingData()[1] != 0)
 		{
-			$this->controller->SaveData2();
-			include ('./views/AppResVal.php');
+			if ($this->controller->VerifyData2() == 0)
+			{
+				$this->controller->SaveData2();
+				include ('./views/AppResVal.php');
+			}
+			else
+			{
+				include ('./views/AppResDet.php');
+			}
 		}
-		else
+		else if ($this->controller->ExistingData()[1] == 0)
 		{
-			include ('./views/AppResDet.php');
+			include ('./views/AppResVal.php');
 		}
 	}
 	

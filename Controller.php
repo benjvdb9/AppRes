@@ -9,26 +9,34 @@ class Controller {
 	
 	/*Saves data from the 1st form into model*/
 	public function SaveData1($warranty){
-		$this->model->destination = htmlspecialchars($_POST["destination"]);
-		$this->model->seats= htmlspecialchars($_POST["seats"]);
-		$this->model->warranty= htmlspecialchars($warranty);
+		$this->model = $_SESSION['reservation'];
+		var_dump($_SESSION['reservation']);
+		
+		$this->model->ChDestination(htmlspecialchars($_POST["destination"]));
+		$this->model->ChSeats(htmlspecialchars($_POST["seats"]));
+		$this->model->ChWarranty(htmlspecialchars($warranty));
 		
 		$_SESSION['reservation'] = $this->model;
+		var_dump($_SESSION['reservation']);
 	}
 	
 	/*Saves data from the 2nd form into model*/
 	public function SaveData2(){
 		$this->model = $_SESSION['reservation'];
-		$this->model->names= $this->SafeArrays($_POST["nom"]);
-		$this->model->ages=  $this->SafeArrays($_POST["age"]);
+		var_dump($_SESSION['reservation']);
+		
+		$this->model->ChNames($this->SafeArrays($_POST["nom"]));
+		$this->model->ChAges($this->SafeArrays($_POST["age"]));
 		
 		$_SESSION['reservation'] = $this->model;
+		var_dump($_SESSION['reservation']);
 	}
 	
 	/*reset reservation and reservation data*/
 	public function ResetRes(){
+		var_dump('Data reset');
 		$this->model->ResetData();
-		include ('./views/AppResIn.php');
+		$_SESSION['reservation'] = $this->model;
 	}
 	
 	/*Verifies if entries exist*/
@@ -76,7 +84,7 @@ class Controller {
 		return array($check1, $check2, $check3);
 	}
 	
-	/*Verifies whether we can co from page 2 to 3*/
+	/*Verifies whether we can go from page 2 to 3*/
 	public function VerifyData2(){
 		$namelist  = $_POST['nom'];
 		$agelist   = $_POST['age'];
@@ -118,11 +126,28 @@ class Controller {
 		}
 	}
 	
+	public function NoInput()
+	{
+		if ($_POST["destination"]== '' and $_POST["seats"]== '' and !isset($_POST["warranty"]))
+		{
+			return 0;
+		}
+		else
+		{
+			return 1; //Not entirely empty
+		}
+	}
+	
 	public function ExistingData()
 	{
-		$Dest = $_SESSION['reservation']->GetDestination();
-		$Seat = $_SESSION['reservation']->GetSeats();
-		$Warr = $_SESSION['reservation']->GetWarranty();
+		$C1 = 1;
+		$C2 = 1;
+		$C3 = 1;
+		$C4 = 1;
+		$C5 = 1;
+		$Dest = $this->model->GetDestination();
+		$Seat = $this->model->GetSeats();
+		$Warr = $this->model->GetWarranty();
 		if (is_String($Dest) && $Dest != "")
 		{
 			$C1 = 0;
@@ -136,8 +161,8 @@ class Controller {
 			$C3 = 0;
 		}
 		
-		$Name = $_SESSION['reservation']->GetNames();
-		$Ages = $_SESSION['reservation']->GetAges();
+		$Name = $this->model->GetNames();
+		$Ages = $this->model->GetAges();
 		if (isset($Name) && $Name != "")
 		{
 			$C4 = 0;
@@ -166,6 +191,23 @@ class Controller {
 			$res[] = 1;
 		}
 		return $res;
+	}
+	
+	public function CalcPrice()
+	{
+		$this->model = $_SESSION['reservation'];
+		
+		$ages = $this->model->GetAges();
+		$sum = 0;
+		
+		foreach($ages as $age)
+		{
+			if ($age < 12)
+				{$sum += 10;}
+			else
+				{$sum += 15;}
+		}
+		return $sum;
 	}
 }
 ?>

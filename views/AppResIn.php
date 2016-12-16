@@ -1,7 +1,7 @@
 ﻿<html>
 	<head>
 		<meta charset="UTF-8" />
-		<link rel="stylesheet" href="AppResIn.css">
+		<link rel="stylesheet" href="AppResIn.css" />
 		<title>Reservation</title>
 	</head>
 	
@@ -26,7 +26,7 @@
 				</tr>
 			</table><br />
 			<button type="submit" name="Page" value="1">Etape suivante</button>
-			<input type="submit" value="Annuler la réservation"/>
+			<input type="submit" name="Reset" value="Annuler la réservation" value="1"/>
 		</form>
 	</body>
 </html>

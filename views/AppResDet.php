@@ -36,7 +36,7 @@
 			<br />
 			<button type="submit" name="Page" value="2">Etape suivante</button>
 			<button type="submit" name="Page" value="0">Retour à la page précédente</button>
-			<input type="button" value="Annuler la réservation" onclick="$this->controller->ResetRes()" />
+			<input type="submit" name="Reset" value="Annuler la réservation" value="1"/>
 		</form>
 	</body>
 </html>

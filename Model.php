@@ -1,11 +1,11 @@
 <?php
 class Model {
 	
-	public $destination; /*public*/
-	public $seats;
-	public $warranty;
-	public $names;
-	public $ages;
+	private $destination; /*public*/
+	private $seats;
+	private $warranty;
+	private $names;
+	private $ages;
 	
 	public function ResetData()
 	{
@@ -39,6 +39,31 @@ class Model {
 	public function getAges()
 	{
 		return $this->ages;
+	}
+	
+	public function ChDestination($Dest)
+	{
+		$this->destination = $Dest;
+	}
+	
+	public function ChSeats($Seat)
+	{
+		$this->seats = $Seat;
+	}
+	
+	public function ChWarranty($Warr)
+	{
+		$this->warranty = $Warr;
+	}
+	
+	public function ChNames($name)
+	{
+		$this->names = $name;
+	}
+	
+	public function ChAges($Ages)
+	{
+		$this->ages = $Ages;
 	}
 }
 ?>
