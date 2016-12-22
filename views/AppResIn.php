@@ -6,7 +6,16 @@
 	</head>
 	
 	<body>
-		<b><h1>RESERVATION</h1></b><br /><br />
+		<div id="Admin">
+			<div id="form">
+				<form method="post">
+					<input type="password" name="psw" placeholder="Admin" /><br />
+					<button type="submit" name="Page" value="5">modifier réservations</button>
+				</form>
+			</div>
+			<b><h1>RESERVATION</h1></b><br /><br />
+		</div>
+		
 		Le prix de la place est de 10 euros jusqu'à 12 ans et ensuite de 15 euros.<br />
 		Le prix de l'assurance annulation est de 20 euros quel que soit le nombre de voyageurs.<br /><br />
 		

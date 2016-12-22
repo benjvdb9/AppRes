@@ -72,5 +72,19 @@ class View {
 		$this->model = $_SESSION['reservation'];
 		include('./views/AppResCnf.php');
 	}
+	
+	public function output5(){
+		if ($this->controller->verifyPassword()) {
+			include('./views/AppResAdm.php');
+		}
+		else {
+			include('./views/AppResIn.php');
+		}
+	}
+	
+	public function outputEdit($ID) {
+		$this->controller->recallInfo($ID);
+		include('./views/AppResEdt.php');
+	}
 }
 ?>

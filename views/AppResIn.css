@@ -10,3 +10,11 @@ table {
 th {
 	text-align: left;
 }
+
+#Admin {
+	position: relative;
+}
+
+#form {
+	float: right;
+}

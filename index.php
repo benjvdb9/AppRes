@@ -30,7 +30,12 @@ $view= new View($model, $controller);
 if(isset($_POST['Reset'])==1)
 	{$controller->ResetRes();} //Resets data when button presseed
 
+$controller->saveDB($mysqli);
 switch (isset($_POST['Page']) ? $_POST['Page'] : '0'){
+	case '5':
+		echo $view->output5();
+		break;
+		
 	case '4':
 		include('./views/AppResDet.php');
 		break;
@@ -53,8 +58,15 @@ switch (isset($_POST['Page']) ? $_POST['Page'] : '0'){
 
 	case '0':
 	default:
-		var_dump($_SESSION['reservation']);
 		echo $view->output1();
 		break;
+}
+
+if (isset($_POST['edit'])) {
+	$view->outputEdit($_POST['edit']);
+}
+
+if (isset($_POST['del'])) {
+	$controller->delRow($_POST['del']);
 }
 ?>

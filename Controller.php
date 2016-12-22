@@ -5,6 +5,8 @@ class Controller {
 	
 	public function __construct($model){
 		$this->model = $model;
+		$this->mysqli = '';
+		$this->ID = '';
 	}
 	
 	/*Saves data from the 1st form into model*/
@@ -156,6 +158,11 @@ class Controller {
 		}
 	}
 	
+	public function saveDB($DB)
+	{
+		$this->mysqli = $DB;
+	}
+	
 	public function ExistingData()
 	{
 		$C1 = 1;
@@ -266,6 +273,66 @@ class Controller {
 		else{
 			echo "Error inserting record" . $mysqli->error;
 		}
+		
+		$results->close();
+	}
+	
+	public function verifyPassword()
+	{
+		$psw = $_POST['psw'];
+		
+		if ($psw == 'Admin') {
+			return true;
+		}
+		return false;
+	}
+	
+	public function mysqlResultToArray($results)
+	{
+		$list = []
+		foreach ($results as $result)
+		{
+			$list[] = $result;
+		}
+		return $list;
+	}
+	
+	public function recallInfo($ID)
+	{
+		$this->ID = $ID;
+		$sql = "SELECT * FROM AppResDB WHERE ID=$ID";
+		$results = $this->mysqli->query($sql) or die("Query failed");
+		
+		foreach ($results as $elem) {
+			$result = $elem; //There is only one result
+		}
+		var_dump($result);
+		$this->model->ChDestination($result['Destination']);
+		$this->model->ChSeats($result['Seats']);
+		$this->model->ChWarranty($result['Warranty']);
+		$results->close();
+		
+		$sql = "SELECT * FROM People WHERE ID=$ID";
+		$results = $this->mysqli->query($sql) or die("Query failed");
+		
+		$PeopleList = $this->controller->mysqlResultToArray($results);
+		$results->close();
+		
+		$this->model->ChNames();
+		$this->model->ChAges($results['Age']);
+		
+		$_SESSION['reservation'] = $this->model;
+	}
+	
+	public function delRow($ID)
+	{
+		$ID = $_POST['del'];
+		var_dump($ID);
+		$sql = "DELETE FROM AppResDB WHERE ID='$ID'";
+		$sql2 = "DELETE FROM People WHERE ID=$ID";
+		
+		$this->mysqli->query($sql) or die("1 ERROR");
+		$this->mysqli->query($sql2) or die("2 ERROR");
 	}
 }
 ?>
