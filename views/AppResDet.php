@@ -20,7 +20,8 @@
 					$test = $_SESSION['reservation']->getNames();
 					if ($test == '')
 					{
-						$name= "";
+						echo 'TEST';
+						$name= '';
 						$age=  "";
 					}
 					else

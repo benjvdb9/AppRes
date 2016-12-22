@@ -1,7 +1,7 @@
 <?php
 class Model {
 	
-	private $destination; /*public*/
+	private $destination;
 	private $seats;
 	private $warranty;
 	private $names;

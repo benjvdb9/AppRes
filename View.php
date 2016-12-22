@@ -66,25 +66,6 @@ class View {
 				include ('./views/AppResDet.php');  //Reset page if input isn't valid
 			}
 		}
-		
-		/*$this->model = $_SESSION['reservation'];
-		
-		if ($this->controller->ExistingData()[1] != 0)
-		{
-			if ($this->controller->VerifyData2() == 0)
-			{
-				$this->controller->SaveData2();
-				include ('./views/AppResVal.php');
-			}
-			else
-			{
-				include ('./views/AppResDet.php');
-			}
-		}
-		else if ($this->controller->ExistingData()[1] == 0)
-		{
-			include ('./views/AppResVal.php');
-		}*/
 	}
 	
 	public function output4(){
