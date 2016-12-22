@@ -1,7 +1,7 @@
 ﻿<html>
 	<head>
 		<meta charset="UTF-8" />
-		<link rel="stylesheet" href="AppResIn.css">
+		<link rel="stylesheet" href="./views/AppResIn.css">
 		<title>Detail des reservations</title>
 	</head>
 	
@@ -14,22 +14,35 @@
 					<th></th>
 				</tr>
 				<?php
+				$i =0;
 				$count= $_SESSION['reservation']->getSeats();
-				while($count > 0){
+				while($i < $count){
+					$test = $_SESSION['reservation']->getNames();
+					if ($test == '')
+					{
+						$name= "";
+						$age=  "";
+					}
+					else
+					{
+						$name = $_SESSION['reservation']->getNames()[$i];
+						$age = $_SESSION['reservation']->getAges()[$i];
+					}
+
 					echo '
 					<tr>
 						<th>Nom</th>
-						<th><input type="text" name= nom[]/></th>
+						<th><input type="text" name= nom[] value='.$name.' /></th>
 					</tr>
 					<tr>
 						<th>Age</th>
-						<th><input type="text" name= age[]/></th>
+						<th><input type="text" name= age[] value='.$age.' /></th>
 					</tr>
 					<tr>
 						<th><br /></th>
 						<th></th>
 					</tr>';
-					$count = $count - 1;
+					$i ++;
 					}
 				?>
 			</table>

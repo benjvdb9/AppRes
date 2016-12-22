@@ -1,7 +1,7 @@
 ﻿<html>
 	<head>
 		<meta charset="UTF-8" />
-		<link rel="stylesheet" href="AppResIn.css" />
+		<link rel="stylesheet" href="./views/AppResIn.css" />
 		<title>Confirmation</title>
 	</head>
 	

@@ -1,7 +1,7 @@
 ﻿<html>
 	<head>
 		<meta charset="UTF-8" />
-		<link rel="stylesheet" href="AppResIn.css">
+		<link rel="stylesheet" href="./views/AppResIn.css">
 		<title>validation des reservations</title>
 	</head>
 	
@@ -17,6 +17,10 @@
 				<th>Nombre de places</th>
 				<th><?php print($_SESSION['reservation']->GetSeats()) ?></th>
 			</tr>
+			<tr>
+				<th><br /></th>
+				<th></th>
+			</tr>
 			<?php
 			$start= 0;
 			$end= $_SESSION['reservation']->GetSeats();
@@ -30,6 +34,10 @@
 				<tr>
 					<th>Age</th>
 					<th>'.$arr2[$start].'</th>
+				</tr>
+				<tr>
+					<th><br /></th>
+					<th></th>
 				</tr>';
 				$start++;
 			}
@@ -40,9 +48,10 @@
 			</tr>
 		</table>
 		
+		<br />
 		<form method="post">
 			<button type="submit" name="Page" value="3">Etape suivante</button>
-			<button type="submit" name="Page" value="1">Retour à la page précédente</button>
+			<button type="submit" name="Page" value="4">Retour à la page précédente</button>
 		</form>
 	</body>
 </html>

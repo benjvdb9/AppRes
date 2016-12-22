@@ -41,7 +41,7 @@ class Controller {
 	
 	/*Verifies if entries exist*/
 	public function CheckExistence($var){
-		if (isset($var))  //gettype($var) == 'string'
+		if (isset($var))
 		{
 			return 0;
 		}
@@ -126,9 +126,27 @@ class Controller {
 		}
 	}
 	
-	public function NoInput()
+	public function NoInput1()
 	{
 		if ($_POST["destination"]== '' and $_POST["seats"]== '' and !isset($_POST["warranty"]))
+		{
+			return 0;
+		}
+		else
+		{
+			return 1; //Not entirely empty
+		}
+	}
+	
+	public function NoInput2()
+	{
+		try {
+			$_POST["nom"];
+		}
+		catch(Exception $e) {
+			return 99;
+		}
+		if ($_POST["nom"]== [] and $_POST["age"]== [])
 		{
 			return 0;
 		}

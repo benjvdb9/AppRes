@@ -1,8 +1,8 @@
 body {
-	background-color: powderblue;
+	background-color: white;
 }
 
-table, th, td {
+table {
 	border-collapse: collapse;
 	border: 1px solid black;	
 }

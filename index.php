@@ -23,12 +23,14 @@ else
 $controller= new Controller($model);
 $view= new View($model, $controller);
 
-var_dump($model);
-
 if(isset($_POST['Reset'])==1)
 	{$controller->ResetRes();} //Resets data when button presseed
 
 switch (isset($_POST['Page']) ? $_POST['Page'] : '0'){
+	case '4':
+		include('./views/AppResDet.php');
+		break;
+		
 	case '3':
 		echo $view->output4();
 		break;
