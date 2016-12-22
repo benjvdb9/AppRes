@@ -3,13 +3,17 @@ require('Model.php');
 require('Controller.php');
 require('View.php');
 
-/*$mysqli = new mysqli("localhost", "root", "", "AppResDB") or
+$mysqli = new mysqli("localhost", "root", "", "AppResDB") or
 die("Could not select database");
 
 if ($mysqli->connect_errno) {
 	echo "Echec lors de la connexion à MYSQL : (" . $mysqli->connect_errno . ")
 	" . $mysqli->connect_error;
-}*/
+}
+
+/*$sql1 = "DELETE FROM AppResDB";
+$sql2 = "DELETE FROM People";
+$mysqli->query($sql2);*/ //erases databe if necessary
 
 session_start();
 	
@@ -32,7 +36,9 @@ switch (isset($_POST['Page']) ? $_POST['Page'] : '0'){
 		break;
 		
 	case '3':
+		var_dump($_SESSION['reservation']);
 		echo $view->output4();
+		$controller->saveToDB($mysqli);
 		break;
 		
 	case '2':

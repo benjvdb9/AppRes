@@ -70,7 +70,6 @@ class View {
 	
 	public function output4(){
 		$this->model = $_SESSION['reservation'];
-		
 		include('./views/AppResCnf.php');
 	}
 }

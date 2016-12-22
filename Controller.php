@@ -216,6 +216,7 @@ class Controller {
 		$this->model = $_SESSION['reservation'];
 		
 		$ages = $this->model->GetAges();
+		$warr = $this->model->GetWarranty();
 		$sum = 0;
 		
 		foreach($ages as $age)
@@ -225,7 +226,46 @@ class Controller {
 			else
 				{$sum += 15;}
 		}
+		
+		if ($warr == 'OUI') {
+			$sum += 20;
+		}
 		return $sum;
+	}
+	
+	public function saveToDB($mysqli)
+	{
+		$this->model = $_SESSION['reservation'];
+		
+		$query = "SELECT * FROM AppResDB";
+		$results = $mysqli->query($query) or die("Query failed");
+		
+		$ID   = $results->num_rows + 1;
+		$dest = $this->model->getDestination();
+		$seat = $this->model->getSeats();
+		$warr = $this->model->getWarranty();
+		$names = $this->model->getNames();
+		$ages  = $this->model->getAges();
+		
+		$i=0;
+		foreach ($names as $name) {
+			$age = $ages[$i];
+			$sql = "INSERT INTO People (ID, Name, Age) Values ('$ID', '$name', '$age')";
+			$i ++;
+			
+			if ($mysqli->query($sql) === TRUE) {} 
+			else{
+				echo "Error inserting record" . $mysqli->error;
+			}
+		}
+		
+		$sql = "INSERT INTO AppResDB(ID, Destination, Seats, Warranty)
+				Values ('$ID', '$dest', '$seat', '$warr')";
+				
+		if ($mysqli->query($sql) === TRUE) {}
+		else{
+			echo "Error inserting record" . $mysqli->error;
+		}
 	}
 }
 ?>

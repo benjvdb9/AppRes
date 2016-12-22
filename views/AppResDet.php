@@ -33,11 +33,11 @@
 					echo '
 					<tr>
 						<th>Nom</th>
-						<th><input type="text" name= nom[] value='.$name.' /></th>
+						<th><input type="text" name= nom[] value='.$name.'></th>
 					</tr>
 					<tr>
 						<th>Age</th>
-						<th><input type="text" name= age[] value='.$age.' /></th>
+						<th><input type="text" name= age[] value='.$age.'></th>
 					</tr>
 					<tr>
 						<th><br /></th>
