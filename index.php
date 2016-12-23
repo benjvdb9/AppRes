@@ -66,7 +66,7 @@ if ($model->getMod() == 0)
 			break;
 			
 		default:
-			$ID = str_replace("9", "", $_POST['Page']);
+			$ID = preg_replace("/9/", "", $_POST['Page'], 1);
 			$view->outputDel($ID);
 			break;
 	}
@@ -95,6 +95,11 @@ else
 		case '0':
 			echo 'MODIFYING';
 			echo $view->output1();
+			break;
+			
+		default:
+			$ID = preg_replace("/9/", "", $_POST['Page'], 1);
+			$view->outputDel($ID);
 			break;
 	}
 }

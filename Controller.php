@@ -274,7 +274,7 @@ class Controller {
 		$i=0;
 		foreach ($names as $name) {
 			$name= str_replace("'", "''", $name);
-			$age = str_replace("'", "''", $ages[$i]);
+			$age = $ages[$i];
 			$sql = "INSERT INTO People (ID, Name, Age) Values ('$ID', '$name', '$age')";
 			$i ++;
 			
@@ -293,6 +293,8 @@ class Controller {
 		}
 		
 		$results->close();
+		
+		$this->model->ResetData();
 	}
 	
 	public function modifyDB()
@@ -330,6 +332,8 @@ class Controller {
 				echo "Error when modifying database: " . $this->mysqli->error;
 			}
 		}
+		
+		$this->model->ResetData();
 	}
 	
 	public function verifyPassword($psw)
