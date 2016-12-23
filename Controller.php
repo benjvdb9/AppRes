@@ -319,19 +319,20 @@ class Controller {
 		
 		if ($oldseats > $seat) {
 			$delta = $oldseats - $seat;
-			var_dump($delta);
-			$sql = "DELETE * FROM People WHERE ID='$ID' AND Name='".$oldnames[$delta]."'";
+			$sql = "DELETE FROM People WHERE ID='$ID' AND Name='$oldnames[$delta]'";
 			var_dump($sql);
 			
 			while ($delta > 0) {
-				$this->mysqli->query($sql) or die("1 ERROR");
-				$this->mysqli->error;
+				echo 'erasing' . $oldnames[$delta] . '<br />';
+				if ($this->mysqli->query($sql)===TRUE) {} //or die("1 ERROR");
+				else {$this->mysqli->error;}
 				$delta--;
 			}
 		}
 		else if ($oldseats < $seat) {
 			$delta = $seat - $oldseats;
 			$sql = "INSERT INTO People (ID, Name, Age) Values('$ID', 'test', '0')";
+			var_dump($sql);
 			
 			while ($delta > 0) {
 				$this->mysqli->query($sql) or die("2 ERROR");
@@ -339,13 +340,20 @@ class Controller {
 			}
 		}
 		
+		$sql = $sql = "SELECT * FROM People WHERE ID='$ID'";
+		$rre = $this->mysqli->query($sql) or die("3 ERROR");
+		var_dump($this->mysqlResultToArray($rre));
+		
 		$i=0;
 		$names = $this->model->getNames();
 		$ages  = $this->model->getAges();
 		
 		foreach ($names as $name) {
 			$age = $ages[$i];
-			$sql = "INSERT INTO People (ID, Name, Age) Values ('$ID', '$name', '$age')";
+			var_dump($name);
+			var_dump($age);
+			$sql = "UPDATE People SET Name='$name', Age='$age' WHERE ID='$ID'";
+			var_dump($sql);
 			$i ++;
 			
 			if ($this->mysqli->query($sql) === TRUE) {} 
