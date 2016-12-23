@@ -266,7 +266,7 @@ class Controller {
 		$results = $mysqli->query($query) or die("Query failed");
 		
 		$ID   = $this->createID($results);
-		$dest = $this->model->getDestination();
+		$dest = str_replace("'", "''", $this->model->getDestination());
 		$seat = $this->model->getSeats();
 		$warr = $this->model->getWarranty();
 		$names = $this->model->getNames();
@@ -274,7 +274,8 @@ class Controller {
 		
 		$i=0;
 		foreach ($names as $name) {
-			$age = $ages[$i];
+			$name= str_replace("'", "''", $name);
+			$age = str_replace("'", "''", $ages[$i]);
 			$sql = "INSERT INTO People (ID, Name, Age) Values ('$ID', '$name', '$age')";
 			$i ++;
 			
@@ -300,7 +301,7 @@ class Controller {
 		$this->model = $_SESSION['reservation'];
 		
 		$ID = (int) $this->model->getID();
-		$dest = $this->model->getDestination();
+		$dest = str_replace("'", "''", $this->model->getDestination());
 		$seat = $this->model->getSeats();
 		$warr = $this->model->getWarranty();
 		
@@ -320,6 +321,7 @@ class Controller {
 		$ages  = $this->model->getAges();
 		
 		foreach ($names as $name) {
+			$name = str_replace("'", "''", $name);
 			$age = $ages[$i];
 			$sql = "INSERT INTO People (ID, Name, Age) Values ('$ID', '$name', '$age')";
 			$i ++;
