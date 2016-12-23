@@ -82,9 +82,20 @@ class View {
 		}
 	}
 	
+	public function outputDel($ID) {
+		$this->controller->delRow($ID);
+		include('./views/AppResAdm.php');
+	}
+	
 	public function outputEdit($ID) {
 		$this->controller->recallInfo($ID);
-		include('./views/AppResEdt.php');
+		header("Refresh:0");
+	}
+	
+	public function output4M() {
+		$this->model = $_SESSION['reservation'];
+		$this->controller->modifyDB();
+		echo 'Modifiction Complete';
 	}
 }
 ?>

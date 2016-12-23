@@ -6,7 +6,7 @@
 	</head>
 	
 	<body>
-		<b><h1>Modification de <?php echo "$this->controller->ID" ?></h1></b><br /><br />
+		<b><h1>Modification de réservation N°<?php echo "$this->controller->ID" ?></h1></b><br /><br />
 		<?php
 		$dest = $_SESSION['reservation']->getDestination();
 		$seat = $_SESSION['reservation']->getSeats();

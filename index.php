@@ -22,51 +22,80 @@ if (isset($_SESSION['reservation']))
 else
 	{var_dump("New Model Created");
 	$model= new Model();
+	$model->ChnMod(0);
 	$_SESSION['reservation'] = $model;}
 
 $controller= new Controller($model);
 $view= new View($model, $controller);
 
 if(isset($_POST['Reset'])==1)
-	{$controller->ResetRes();} //Resets data when button presseed
+	{
+		$controller->ResetRes();  //Resets data when button pressed
+		$model->ChnMod(0);
+	} 
 
 $controller->saveDB($mysqli);
-switch (isset($_POST['Page']) ? $_POST['Page'] : '0'){
-	case '5':
-		echo $view->output5();
-		break;
-		
-	case '4':
-		include('./views/AppResDet.php');
-		break;
-		
-	case '3':
-		var_dump($_SESSION['reservation']);
-		echo $view->output4();
-		$controller->saveToDB($mysqli);
-		break;
-		
-	case '2':
-		var_dump($_SESSION['reservation']);
-		echo $view->output3();
-		break;
+var_dump($model);
+if ($model->getMod() == 0)
+{
+	switch (isset($_POST['Page']) ? $_POST['Page'] : '0'){
+		case '5':
+			echo $view->output5();
+			break;
+			
+		case '4': //case where we go from page 3 to page 2, no verification required
+			include('./views/AppResDet.php');
+			break;
+			
+		case '3':
+			echo $view->output4();
+			$controller->saveToDB($mysqli);
+			break;
+			
+		case '2':
+			echo $view->output3();
+			break;
 
-	case '1':
-		var_dump($_SESSION['reservation']);
-		echo $view->output2();
-		break;
+		case '1':
+			echo $view->output2();
+			break;
 
-	case '0':
-	default:
-		echo $view->output1();
-		break;
+		case '0':
+			echo $view->output1();
+			break;
+			
+		default:
+			$ID = str_replace("9", "", $_POST['Page']);
+			$view->outputDel($ID);
+			break;
+	}
+}
+else
+{
+	switch(isset($_POST['Page']) ? $_POST['Page'] : '0'){
+		case '3':
+			echo 'MODIFYING';
+			echo $view->output4M();
+			break;
+			
+		case '2':
+			echo 'MODIFYING';
+			echo $view->output3();
+			break;
+			
+		case '1':
+			echo 'MODIFYING';
+			echo $view->output2();
+			break;
+		
+		case '0':
+			echo 'MODIFYING';
+			echo $view->output1();
+			break;
+	}
 }
 
 if (isset($_POST['edit'])) {
 	$view->outputEdit($_POST['edit']);
-}
-
-if (isset($_POST['del'])) {
-	$controller->delRow($_POST['del']);
 }
 ?>

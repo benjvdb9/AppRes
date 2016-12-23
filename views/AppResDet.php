@@ -18,9 +18,8 @@
 				$count= $_SESSION['reservation']->getSeats();
 				while($i < $count){
 					$test = $_SESSION['reservation']->getNames();
-					if ($test == '')
+					if (!isset($test[$i]))
 					{
-						echo 'TEST';
 						$name= '';
 						$age=  "";
 					}

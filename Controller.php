@@ -12,26 +12,22 @@ class Controller {
 	/*Saves data from the 1st form into model*/
 	public function SaveData1($warranty){
 		$this->model = $_SESSION['reservation'];
-		var_dump($_SESSION['reservation']);
 		
 		$this->model->ChDestination(htmlspecialchars($_POST["destination"]));
 		$this->model->ChSeats(htmlspecialchars($_POST["seats"]));
 		$this->model->ChWarranty(htmlspecialchars($warranty));
 		
 		$_SESSION['reservation'] = $this->model;
-		var_dump($_SESSION['reservation']);
 	}
 	
 	/*Saves data from the 2nd form into model*/
 	public function SaveData2(){
 		$this->model = $_SESSION['reservation'];
-		var_dump($_SESSION['reservation']);
 		
 		$this->model->ChNames($this->SafeArrays($_POST["nom"]));
 		$this->model->ChAges($this->SafeArrays($_POST["age"]));
 		
 		$_SESSION['reservation'] = $this->model;
-		var_dump($_SESSION['reservation']);
 	}
 	
 	/*reset reservation and reservation data*/
@@ -240,6 +236,24 @@ class Controller {
 		return $sum;
 	}
 	
+	public function createID($results)
+	{
+		$resultsarray = $this->mysqlResultToArray($results);
+		$IDarray = [];
+		
+		foreach ($resultsarray as $array) {
+			$IDarray[] = $array['ID'];
+		}
+		
+		$id = 1;
+		while ($id <= max($IDarray) + 1) {
+			if (in_array($id, $IDarray))
+				{$id++;}
+			else
+				{return $id;}
+		}
+	}
+	
 	public function saveToDB($mysqli)
 	{
 		$this->model = $_SESSION['reservation'];
@@ -247,7 +261,8 @@ class Controller {
 		$query = "SELECT * FROM AppResDB";
 		$results = $mysqli->query($query) or die("Query failed");
 		
-		$ID   = $results->num_rows + 1;
+		$ID   = $this->createID($results);
+		var_dump($ID);
 		$dest = $this->model->getDestination();
 		$seat = $this->model->getSeats();
 		$warr = $this->model->getWarranty();
@@ -271,10 +286,73 @@ class Controller {
 				
 		if ($mysqli->query($sql) === TRUE) {}
 		else{
-			echo "Error inserting record" . $mysqli->error;
+			echo "Error inserting record " . $mysqli->error;
 		}
 		
 		$results->close();
+	}
+	
+	public function modifyDB()
+	{
+		$this->model = $_SESSION['reservation'];
+		
+		$ID = (int) $this->model->getID();
+		$dest = $this->model->getDestination();
+		$seat = $this->model->getSeats();
+		$warr = $this->model->getWarranty();
+		
+		$sql = "UPDATE AppResDB SET Destination='$dest', Seats='$seat', Warranty='$warr' WHERE ID='$ID'";
+		
+		if ($this->mysqli->query($sql)===TRUE) {
+			echo 'Record updated successfully';
+		} else {
+			echo 'Error updating record: ' . $this->mysqli->error;
+		}
+		
+		$sql = "SELECT * FROM People WHERE ID='$ID'";
+		$results = $this->mysqli->query($sql) or die("Query failed");
+		$oldseats = $results->num_rows;
+		$PeopleList = $this->mysqlResultToArray($results);
+		$results->close();
+		$People = $this->sortPeople($PeopleList);
+		$oldnames = $People[0];
+		
+		if ($oldseats > $seat) {
+			$delta = $oldseats - $seat;
+			var_dump($delta);
+			$sql = "DELETE * FROM People WHERE ID='$ID' AND Name='".$oldnames[$delta]."'";
+			var_dump($sql);
+			
+			while ($delta > 0) {
+				$this->mysqli->query($sql) or die("1 ERROR");
+				$this->mysqli->error;
+				$delta--;
+			}
+		}
+		else if ($oldseats < $seat) {
+			$delta = $seat - $oldseats;
+			$sql = "INSERT INTO People (ID, Name, Age) Values('$ID', 'test', '0')";
+			
+			while ($delta > 0) {
+				$this->mysqli->query($sql) or die("2 ERROR");
+				$delta--;
+			}
+		}
+		
+		$i=0;
+		$names = $this->model->getNames();
+		$ages  = $this->model->getAges();
+		
+		foreach ($names as $name) {
+			$age = $ages[$i];
+			$sql = "INSERT INTO People (ID, Name, Age) Values ('$ID', '$name', '$age')";
+			$i ++;
+			
+			if ($this->mysqli->query($sql) === TRUE) {} 
+			else{
+				echo "Error inserting record" . $this->mysqli->error;
+			}
+		}
 	}
 	
 	public function verifyPassword()
@@ -289,7 +367,7 @@ class Controller {
 	
 	public function mysqlResultToArray($results)
 	{
-		$list = []
+		$list = [];
 		foreach ($results as $result)
 		{
 			$list[] = $result;
@@ -297,16 +375,28 @@ class Controller {
 		return $list;
 	}
 	
+	public function sortPeople($PeopleList)
+	{
+		$names = [];
+		$ages = [];
+		foreach ($PeopleList as $array) {
+			$names[] = $array['Name'];
+			$ages[]  = $array['Age'];
+		}
+		$result = [$names, $ages];
+		return $result;
+	}
+	
 	public function recallInfo($ID)
 	{
 		$this->ID = $ID;
+		$this->model->ChnID($ID);
 		$sql = "SELECT * FROM AppResDB WHERE ID=$ID";
 		$results = $this->mysqli->query($sql) or die("Query failed");
 		
 		foreach ($results as $elem) {
 			$result = $elem; //There is only one result
 		}
-		var_dump($result);
 		$this->model->ChDestination($result['Destination']);
 		$this->model->ChSeats($result['Seats']);
 		$this->model->ChWarranty($result['Warranty']);
@@ -315,19 +405,19 @@ class Controller {
 		$sql = "SELECT * FROM People WHERE ID=$ID";
 		$results = $this->mysqli->query($sql) or die("Query failed");
 		
-		$PeopleList = $this->controller->mysqlResultToArray($results);
+		$PeopleList = $this->mysqlResultToArray($results);
 		$results->close();
+		$People = $this->sortPeople($PeopleList);
 		
-		$this->model->ChNames();
-		$this->model->ChAges($results['Age']);
+		$this->model->ChNames($People[0]);
+		$this->model->ChAges($People[1]);
+		$this->model->ChnMod(1);
 		
 		$_SESSION['reservation'] = $this->model;
 	}
 	
 	public function delRow($ID)
 	{
-		$ID = $_POST['del'];
-		var_dump($ID);
 		$sql = "DELETE FROM AppResDB WHERE ID='$ID'";
 		$sql2 = "DELETE FROM People WHERE ID=$ID";
 		

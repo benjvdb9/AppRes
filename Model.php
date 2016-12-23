@@ -6,6 +6,8 @@ class Model {
 	private $warranty;
 	private $names;
 	private $ages;
+	private $mod;
+	private $ID;
 	
 	public function ResetData()
 	{
@@ -14,6 +16,8 @@ class Model {
 		$this->warranty= 	"";
 		$this->names= 		"";
 		$this->ages= 		"";
+		$this->mod = 0;
+		$this->ID =  0;
 	}
 	
 	public function getDestination()
@@ -41,6 +45,16 @@ class Model {
 		return $this->ages;
 	}
 	
+	public function getMod()
+	{
+		return $this->mod;
+	}
+	
+	public function getID()
+	{
+		return $this->ID;
+	}
+	
 	public function ChDestination($Dest)
 	{
 		$this->destination = $Dest;
@@ -64,6 +78,16 @@ class Model {
 	public function ChAges($Ages)
 	{
 		$this->ages = $Ages;
+	}
+	
+	public function ChnMod($mod)
+	{
+		$this->mod = $mod;
+	}
+	
+	public function ChnID($ID)
+	{
+		$this->ID = $ID;
 	}
 }
 ?>

@@ -55,7 +55,7 @@
 						<td>$info</td>
 						<form method='post'>
 							<td><button type='submit' name='edit' value='$ID'>Edit</button></td>
-							<td><button type='submit' name='del' value='$ID'>Delete</button></td>
+							<td><button type='submit' name='Page' value='9$ID'>Delete</button></td>
 						</form>
 					</tr>
 					<tr>
