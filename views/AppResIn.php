@@ -20,7 +20,7 @@
 		Le prix de l'assurance annulation est de 20 euros quel que soit le nombre de voyageurs.<br /><br />
 		
 		<?php 
-		$dest= $_SESSION['reservation']->getDestination();
+		$dest= str_replace("'", "&#39;", $_SESSION['reservation']->getDestination());
 		$seat= $_SESSION['reservation']->getSeats();
 		$warr= $_SESSION['reservation']->getWarranty();
 		?>

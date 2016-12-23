@@ -32,7 +32,6 @@ class Controller {
 	
 	/*reset reservation and reservation data*/
 	public function ResetRes(){
-		var_dump('Data reset');
 		$this->model->ResetData();
 		$_SESSION['reservation'] = $this->model;
 	}

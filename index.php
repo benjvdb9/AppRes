@@ -21,10 +21,11 @@ session_start();
 if (isset($_SESSION['reservation']))
 	{$model= $_SESSION['reservation'];}
 else
-	{var_dump("New Model Created");
+{
 	$model= new Model();
 	$model->ChnMod(0);
-	$_SESSION['reservation'] = $model;}
+	$_SESSION['reservation'] = $model;
+}
 
 $controller= new Controller($model);
 $view= new View($model, $controller);
@@ -36,7 +37,6 @@ if(isset($_POST['Reset'])==1)
 	} 
 
 $controller->saveDB($mysqli);
-var_dump($model);
 if ($model->getMod() == 0)
 {
 	switch (isset($_POST['Page']) ? $_POST['Page'] : '0'){

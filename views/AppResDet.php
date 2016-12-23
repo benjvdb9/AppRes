@@ -25,10 +25,8 @@
 					}
 					else
 					{
-						$name = htmlspecialchars($_SESSION['reservation']->getNames()[$i]);
-						$age = htmlspecialchars($_SESSION['reservation']->getAges()[$i]);
-						
-						var_dump($name);
+						$name = str_replace("'", "&#39;", $_SESSION['reservation']->getNames()[$i]);
+						$age = $_SESSION['reservation']->getAges()[$i];
 					}
 
 					echo '
