@@ -246,6 +246,10 @@ class Controller {
 		}
 		
 		$id = 1;
+		
+		if ($IDarray == []) {
+			return $id;
+		}
 		while ($id <= max($IDarray) + 1) {
 			if (in_array($id, $IDarray))
 				{$id++;}
@@ -262,7 +266,6 @@ class Controller {
 		$results = $mysqli->query($query) or die("Query failed");
 		
 		$ID   = $this->createID($results);
-		var_dump($ID);
 		$dest = $this->model->getDestination();
 		$seat = $this->model->getSeats();
 		$warr = $this->model->getWarranty();
@@ -277,7 +280,7 @@ class Controller {
 			
 			if ($mysqli->query($sql) === TRUE) {} 
 			else{
-				echo "Error inserting record" . $mysqli->error;
+				echo "Error when saving to Database" . $mysqli->error;
 			}
 		}
 		
@@ -309,40 +312,8 @@ class Controller {
 			echo 'Error updating record: ' . $this->mysqli->error;
 		}
 		
-		$sql = "SELECT * FROM People WHERE ID='$ID'";
-		$results = $this->mysqli->query($sql) or die("Query failed");
-		$oldseats = $results->num_rows;
-		$PeopleList = $this->mysqlResultToArray($results);
-		$results->close();
-		$People = $this->sortPeople($PeopleList);
-		$oldnames = $People[0];
-		
-		if ($oldseats > $seat) {
-			$delta = $oldseats - $seat;
-			$sql = "DELETE FROM People WHERE ID='$ID' AND Name='$oldnames[$delta]'";
-			var_dump($sql);
-			
-			while ($delta > 0) {
-				echo 'erasing' . $oldnames[$delta] . '<br />';
-				if ($this->mysqli->query($sql)===TRUE) {} //or die("1 ERROR");
-				else {$this->mysqli->error;}
-				$delta--;
-			}
-		}
-		else if ($oldseats < $seat) {
-			$delta = $seat - $oldseats;
-			$sql = "INSERT INTO People (ID, Name, Age) Values('$ID', 'test', '0')";
-			var_dump($sql);
-			
-			while ($delta > 0) {
-				$this->mysqli->query($sql) or die("2 ERROR");
-				$delta--;
-			}
-		}
-		
-		$sql = $sql = "SELECT * FROM People WHERE ID='$ID'";
-		$rre = $this->mysqli->query($sql) or die("3 ERROR");
-		var_dump($this->mysqlResultToArray($rre));
+		$sql = "DELETE FROM People WHERE ID='$ID'";
+		$this->mysqli->query($sql) or die("1 ERROR");
 		
 		$i=0;
 		$names = $this->model->getNames();
@@ -350,23 +321,18 @@ class Controller {
 		
 		foreach ($names as $name) {
 			$age = $ages[$i];
-			var_dump($name);
-			var_dump($age);
-			$sql = "UPDATE People SET Name='$name', Age='$age' WHERE ID='$ID'";
-			var_dump($sql);
+			$sql = "INSERT INTO People (ID, Name, Age) Values ('$ID', '$name', '$age')";
 			$i ++;
 			
 			if ($this->mysqli->query($sql) === TRUE) {} 
 			else{
-				echo "Error inserting record" . $this->mysqli->error;
+				echo "Error when modifying database: " . $this->mysqli->error;
 			}
 		}
 	}
 	
-	public function verifyPassword()
+	public function verifyPassword($psw)
 	{
-		$psw = $_POST['psw'];
-		
 		if ($psw == 'Admin') {
 			return true;
 		}
@@ -399,7 +365,7 @@ class Controller {
 	{
 		$this->ID = $ID;
 		$this->model->ChnID($ID);
-		$sql = "SELECT * FROM AppResDB WHERE ID=$ID";
+		$sql = "SELECT * FROM AppResDB WHERE ID='$ID'";
 		$results = $this->mysqli->query($sql) or die("Query failed");
 		
 		foreach ($results as $elem) {
@@ -410,7 +376,7 @@ class Controller {
 		$this->model->ChWarranty($result['Warranty']);
 		$results->close();
 		
-		$sql = "SELECT * FROM People WHERE ID=$ID";
+		$sql = "SELECT * FROM People WHERE ID='$ID'";
 		$results = $this->mysqli->query($sql) or die("Query failed");
 		
 		$PeopleList = $this->mysqlResultToArray($results);
@@ -427,7 +393,7 @@ class Controller {
 	public function delRow($ID)
 	{
 		$sql = "DELETE FROM AppResDB WHERE ID='$ID'";
-		$sql2 = "DELETE FROM People WHERE ID=$ID";
+		$sql2 = "DELETE FROM People WHERE ID='$ID'";
 		
 		$this->mysqli->query($sql) or die("1 ERROR");
 		$this->mysqli->query($sql2) or die("2 ERROR");

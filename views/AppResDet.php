@@ -25,18 +25,20 @@
 					}
 					else
 					{
-						$name = $_SESSION['reservation']->getNames()[$i];
-						$age = $_SESSION['reservation']->getAges()[$i];
+						$name = htmlspecialchars($_SESSION['reservation']->getNames()[$i]);
+						$age = htmlspecialchars($_SESSION['reservation']->getAges()[$i]);
+						
+						var_dump($name);
 					}
 
 					echo '
 					<tr>
 						<th>Nom</th>
-						<th><input type="text" name= nom[] value='.$name.'></th>
+						<th><input type="text" name= nom[] value="'.$name.'"></th>
 					</tr>
 					<tr>
 						<th>Age</th>
-						<th><input type="text" name= age[] value='.$age.'></th>
+						<th><input type="text" name= age[] value="'.$age.'"></th>
 					</tr>
 					<tr>
 						<th><br /></th>

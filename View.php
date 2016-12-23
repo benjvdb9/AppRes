@@ -73,8 +73,8 @@ class View {
 		include('./views/AppResCnf.php');
 	}
 	
-	public function output5(){
-		if ($this->controller->verifyPassword()) {
+	public function output5($psw){
+		if ($this->controller->verifyPassword($psw)) {
 			include('./views/AppResAdm.php');
 		}
 		else {
@@ -94,8 +94,12 @@ class View {
 	
 	public function output4M() {
 		$this->model = $_SESSION['reservation'];
+		
 		$this->controller->modifyDB();
-		echo 'Modifiction Complete';
+		$this->model->ChnMod(0);
+		$this->output5('Admin');
+		
+		$_SESSION['reservation'] = $this->model;
 	}
 }
 ?>

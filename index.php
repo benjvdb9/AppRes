@@ -13,6 +13,7 @@ if ($mysqli->connect_errno) {
 
 /*$sql1 = "DELETE FROM AppResDB";
 $sql2 = "DELETE FROM People";
+$mysqli->query($sql1);
 $mysqli->query($sql2);*/ //erases databe if necessary
 
 session_start();
@@ -40,7 +41,7 @@ if ($model->getMod() == 0)
 {
 	switch (isset($_POST['Page']) ? $_POST['Page'] : '0'){
 		case '5':
-			echo $view->output5();
+			echo $view->output5($_POST['psw']);
 			break;
 			
 		case '4': //case where we go from page 3 to page 2, no verification required
@@ -73,8 +74,11 @@ if ($model->getMod() == 0)
 else
 {
 	switch(isset($_POST['Page']) ? $_POST['Page'] : '0'){
+		case '5':
+			echo $view->output5($_POST['psw']);
+			break;
+			
 		case '3':
-			echo 'MODIFYING';
 			echo $view->output4M();
 			break;
 			

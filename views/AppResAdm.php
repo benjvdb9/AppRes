@@ -37,7 +37,7 @@
 			$seat = $elem['Seats'];
 			$warr = $elem['Warranty'];
 			
-			$sql2 = "SELECT * FROM People WHERE ID=$ID";
+			$sql2 = "SELECT * FROM People WHERE ID='$ID'";
 			$results2 = $this->controller->mysqli->query($sql2) or die("Query failed2");
 			
 			$info= '';
@@ -71,5 +71,9 @@
 		$results->close();
 		?>
 		</table>
+		<br />
+		<form method="post">
+			<button type="submit" name="Page" value="0">Retour à la page d'accueil</button>
+		</form>
 	</body>
 </html>
