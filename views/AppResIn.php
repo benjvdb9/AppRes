@@ -19,8 +19,10 @@
 		Le prix de la place est de 10 euros jusqu'à 12 ans et ensuite de 15 euros.<br />
 		Le prix de l'assurance annulation est de 20 euros quel que soit le nombre de voyageurs.<br /><br />
 		
-		<?php 
-		$dest= str_replace("'", "&#39;", $_SESSION['reservation']->getDestination());
+		<?php
+		//fetches info from session to put in fields
+		
+		$dest= str_replace("'", "&#39;", $_SESSION['reservation']->getDestination()); //used to show apostrophies in HTML
 		$seat= $_SESSION['reservation']->getSeats();
 		$warr= $_SESSION['reservation']->getWarranty();
 		?>

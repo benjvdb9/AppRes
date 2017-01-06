@@ -28,7 +28,8 @@
 						$name = str_replace("'", "&#39;", $_SESSION['reservation']->getNames()[$i]);
 						$age = $_SESSION['reservation']->getAges()[$i];
 					}
-
+					
+					//name/age fields, will show up nbSeats amount of time 
 					echo '
 					<tr>
 						<th>Nom</th>

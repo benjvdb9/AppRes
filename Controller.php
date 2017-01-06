@@ -30,7 +30,7 @@ class Controller {
 		$_SESSION['reservation'] = $this->model;
 	}
 	
-	/*reset reservation and reservation data*/
+	/*reset reservation data and session*/
 	public function ResetRes(){
 		$this->model->ResetData();
 		$_SESSION['reservation'] = $this->model;
@@ -60,22 +60,19 @@ class Controller {
 		return $res;
 	}
 	
-	/*Verifies whether we can go to the next page or not*/
+	/*Verifies whether we can go from page 1 to 2*/
 	public function VerifyData1(){
 		$check1= 1; /*1 represents an error flag*/
 		$check2= 1;
 		$check3= 1;
 		
-		$check1= $this->CheckExistence($_POST["destination"]);
+		if ($_POST["destination"] != '')
+			{$check1= 0;}
 		
 		if (null !== $_POST["seats"] && is_numeric($_POST["seats"]))
-		{
-			$check2 = 0;
-		}
+			{$check2= 0;}
 		else
-		{
-			$check2= 1;
-		}
+			{$check2= 1;}
 		
 		$check3=isset($_POST["warranty"])? 0: 1;
 		return array($check1, $check2, $check3);
@@ -123,6 +120,7 @@ class Controller {
 		}
 	}
 	
+	//verifies if page 1 has nothing in it
 	public function NoInput1()
 	{
 		if ($_POST["destination"]== '' and $_POST["seats"]== '' and !isset($_POST["warranty"]))
@@ -135,6 +133,7 @@ class Controller {
 		}
 	}
 	
+	//verifies if page 2 has nothing in it
 	public function NoInput2()
 	{
 		try {
@@ -153,11 +152,13 @@ class Controller {
 		}
 	}
 	
+	//save a given mysqli to controller
 	public function saveDB($DB)
 	{
 		$this->mysqli = $DB;
 	}
 	
+	//verifies if the model is filled with all the necessary info
 	public function ExistingData()
 	{
 		$C1 = 1;
@@ -213,6 +214,7 @@ class Controller {
 		return $res;
 	}
 	
+	//Caculates the price to paid for the trip
 	public function CalcPrice()
 	{
 		$this->model = $_SESSION['reservation'];
@@ -235,11 +237,13 @@ class Controller {
 		return $sum;
 	}
 	
+	//creates an ID for the reservation to be identified in the database
 	public function createID($results)
 	{
 		$resultsarray = $this->mysqlResultToArray($results);
 		$IDarray = [];
 		
+		//creates a list containing all ID's
 		foreach ($resultsarray as $array) {
 			$IDarray[] = $array['ID'];
 		}
@@ -249,6 +253,8 @@ class Controller {
 		if ($IDarray == []) {
 			return $id;
 		}
+		
+		//takes the smallest possible ID possible that is not yet taken
 		while ($id <= max($IDarray) + 1) {
 			if (in_array($id, $IDarray))
 				{$id++;}
@@ -257,6 +263,7 @@ class Controller {
 		}
 	}
 	
+	//saves all of the information in the session to the database
 	public function saveToDB($mysqli)
 	{
 		$this->model = $_SESSION['reservation'];
@@ -273,8 +280,10 @@ class Controller {
 		
 		$i=0;
 		foreach ($names as $name) {
-			$name= str_replace("'", "''", $name);
+			$name= str_replace("'", "''", $name); 		//necessary for html to show '
 			$age = $ages[$i];
+			
+			//saves client information in the People database (multiple people for 1 ID)
 			$sql = "INSERT INTO People (ID, Name, Age) Values ('$ID', '$name', '$age')";
 			$i ++;
 			
@@ -284,6 +293,7 @@ class Controller {
 			}
 		}
 		
+		//saves trip info in the AppResDB database (1 ID, 1 trip)
 		$sql = "INSERT INTO AppResDB(ID, Destination, Seats, Warranty)
 				Values ('$ID', '$dest', '$seat', '$warr')";
 				
@@ -294,9 +304,10 @@ class Controller {
 		
 		$results->close();
 		
-		$this->model->ResetData();
+		$this->model->ResetData();		//resets data
 	}
 	
+	//replaces an existing database entry by the one in the current session
 	public function modifyDB()
 	{
 		$this->model = $_SESSION['reservation'];
@@ -306,6 +317,7 @@ class Controller {
 		$seat = $this->model->getSeats();
 		$warr = $this->model->getWarranty();
 		
+		//updates AppResDB
 		$sql = "UPDATE AppResDB SET Destination='$dest', Seats='$seat', Warranty='$warr' WHERE ID='$ID'";
 		
 		if ($this->mysqli->query($sql)===TRUE) {
@@ -314,6 +326,7 @@ class Controller {
 			echo 'Error updating record: ' . $this->mysqli->error;
 		}
 		
+		//erases all the people with current ID 
 		$sql = "DELETE FROM People WHERE ID='$ID'";
 		$this->mysqli->query($sql) or die("1 ERROR");
 		
@@ -324,6 +337,8 @@ class Controller {
 		foreach ($names as $name) {
 			$name = str_replace("'", "''", $name);
 			$age = $ages[$i];
+			
+			//adds new lines to People database
 			$sql = "INSERT INTO People (ID, Name, Age) Values ('$ID', '$name', '$age')";
 			$i ++;
 			
@@ -333,17 +348,19 @@ class Controller {
 			}
 		}
 		
-		$this->model->ResetData();
+		$this->model->ResetData();		//resets data
 	}
 	
+	//verifies password to enter the Admin page
 	public function verifyPassword($psw)
 	{
-		if ($psw == 'Admin') {
+		if ($psw == 'Admin' || $psw == 'admin') {
 			return true;
 		}
 		return false;
 	}
 	
+	//creates an array with results from mysqli
 	public function mysqlResultToArray($results)
 	{
 		$list = [];
@@ -354,6 +371,8 @@ class Controller {
 		return $list;
 	}
 	
+	/*PeopleList is a list containing all names and ages; this splits them
+	in 2 distinct lists*/
 	public function sortPeople($PeopleList)
 	{
 		$names = [];
@@ -366,6 +385,8 @@ class Controller {
 		return $result;
 	}
 	
+	/*fetches the info from the database with the corresponding ID
+	and stores it into the session, used when modifying*/
 	public function recallInfo($ID)
 	{
 		$this->ID = $ID;
@@ -395,6 +416,7 @@ class Controller {
 		$_SESSION['reservation'] = $this->model;
 	}
 	
+	//deletes a specific row
 	public function delRow($ID)
 	{
 		$sql = "DELETE FROM AppResDB WHERE ID='$ID'";
